@@ -1,0 +1,66 @@
+/* Lists */ 
+
+%L=[a,b,c]. Error when querying 
+
+% bip = built in predicate
+% a non empty list is composed of a Head and Tail: [H|T]
+% In Prolog an empty list [], cannot be represented as [H|T]
+% The AI language LISP (List Processing) allows for empty list to be "split" into a head and tail
+
+% Let us define a length-like predicate: myLength
+% 1. The empty list has length 0: myLength([],0). 
+% 2. The length of a NON-EMPTY list is 1 + length of its tail
+% mylength([H|T], N) :- (if) myLength(T, NT), N is 1 + NT. 
+
+myLength([],0).
+myLength([H|T], N) :- 
+    myLength(T, NT), 
+    N is 1 + NT. 
+
+max(X, Y, X) :- X >= Y.
+max(_X, Y, Y). 
+
+maxL([H], H).
+maxL([H|T], MAX) :- 
+    maxL(T, TMAX),
+    max(H, TMAX, MAX). 
+
+% addL(V, L, LV) holds true when the elements of LV are the elements of l to which V was added
+
+addL(_V, [], []).
+addL(V, [H|T], [HV|TV]) :- 
+    HV is H+V,
+    addL(V, T, TV). 
+
+% insert1(E, L, LE) holds true when LE is the list L where E was inserted. Note: the easiest way to insert 
+% an element in a list is to insert it at the front of the list 
+% (Unless it is specified that it must be inserted at a specific location in the list) 
+
+insert1(E, [H|T], [E, H|T]). 
+insert1(E, [], [E]).
+
+newInsert1(E, L, [E|L]). 
+
+% insertN(E, L, N, LN): holds true when inserting E as the Nth element in the list L results in the list LN
+% Note that the list L must have at least N-1 elements 
+% We cannot insert the 10th element in a list with 8 elements 
+
+insertN(E, L, N, LN) :- 
+    length(L, LEN),
+    N1 is N-1,
+    LEN >= N1,
+    append(L1, L2, L),
+    length(L1, N1),
+    append(L1, [E|L2], LN). 
+
+% reorderd(L) holds true if L is ordered in nondereasing order
+
+ordered([H1, H2|T]) :- 
+    H1 =< H2,
+    ordered([H2|T]). 
+
+greaterOrEqual(X, Y) :- 
+    X >= Y.
+
+lessOrEqual(X, Y) :-
+    X <= Y. 
