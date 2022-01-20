@@ -1,0 +1,2 @@
+# artificialIntellegence
+AI class work 
