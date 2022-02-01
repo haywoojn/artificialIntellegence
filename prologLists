@@ -57,10 +57,40 @@ insertN(E, L, N, LN) :-
 
 ordered([H1, H2|T]) :- 
     H1 =< H2,
-    ordered([H2|T]). 
+    ordered([H2|T]).  
 
-greaterOrEqual(X, Y) :- 
-    X >= Y.
+/* Split in half */ 
 
-lessOrEqual(X, Y) :-
-    X <= Y. 
+split(L, L1, L2):- 
+    length(L, LN),
+    N1 is div(LN,2),
+    length(L1, N1),
+    append(L1,L2,L). 
+
+%MergeSort(L, SL)
+
+mergeSort(L, SL):-
+	split(L, L1, L2),
+	mergeSort(L1, S1),
+	mergeSort(L2, S2),
+    merge(S1, S2, SL).
+
+%Merge(S1, S2, S): S1 and S2 are sorted
+%S is the list obtained S1 and S2 by a merge operation
+
+
+merge([], L, L).
+merge(L, [], L). 
+merge([H1|T1], [H2|T2], [H1|T]):-
+    H1 =< H2, 
+    merge(T1, [H2|T2], T).
+
+merge([H1|T1], [H2|T2], [H2|T]):-
+    H2 =< H1, 
+    merge([H1|T1], T2, T).
+    
+ 
+ 
+ 
+ 
+ 
